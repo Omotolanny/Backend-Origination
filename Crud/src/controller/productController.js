@@ -67,15 +67,26 @@ exports.getAllProducts = async (req, res) => {
 };
 
 
+
 exports.createProduct = async (req, res) => {
   const { name, price } = req.body;
+
+  // DATA VALIDATION 
+  if (!name || name.trim() === "") {
+    return res.status(400).json({ error: "Product name is required and cannot be empty." });
+  }
+
+  if (price !== undefined && isNaN(price)) {
+    return res.status(400).json({ error: "Price must be a valid number." });
+  }
+
   try {
     const query = 'INSERT INTO products (name, price) VALUES ($1, $2) RETURNING *';
-    const values = [name, price || 0]; // Using your 'price || 0' logic here
-    
-    const result = await pool.query(query, values);
+    const result = await pool.query(query, [name, price || 0]); // 
     res.status(201).json(result.rows[0]); 
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    // ERROR HANDLING 
+    console.error(err.message);
+    res.status(500).json({ error: "A server error occurred while creating the product." });
   }
 };

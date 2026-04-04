@@ -12,7 +12,7 @@ const pool = new Pool({
   user: 'postgres',           // Your default username
   host: 'localhost',          // Your machine
   database: 'product_api',    // The name you gave it in pgAdmin
-  password: 'YOUR_PASSWORD',  // The master password you created
+  password: 'Tolani84',  // The master password you created
   port: 5432,                 // The standard Postgres port
 });
 
